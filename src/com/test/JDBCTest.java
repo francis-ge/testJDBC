@@ -8,11 +8,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
 
 import org.junit.Test;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDriver;
-import com.mysql.jdbc.PreparedStatement;
 
 public class JDBCTest {
 	
@@ -62,20 +62,26 @@ public class JDBCTest {
 	@Test
 	public void testTransaction() throws ClassNotFoundException, IOException, SQLException{
 		Connection connection = null;
-		PreparedStatement ps = null;
+		Statement ps = null;
 		
 		try {
 			connection = JDBCTools.getConnection();
-			
-			String sql = "UPDATE student id = 3333 WHERE name = 22222";
 			connection.setAutoCommit(false);
 			
-			ps = connection.prepareStatement(sql);
+			String sql = "UPDATE student id = 3333 WHERE name = 22222";
+			ps = connection.createStatement();
+			ps.execute(sql);
+			connection.commit();
+			
+			sql = "UPDATE student id = 3333 WHERE name = 333333";
+			ps= connection.prepareStatement(sql);
+			ps.execute(sql);
+			
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}finally{
-			
+			JDBCTools.releaseDB(null, ps, connection);
 		}
 		
 		
