@@ -17,7 +17,7 @@ import org.junit.Test;
 public class ReviewTest {
 	
 	/**
-	 * 1. ResultSet ·â×° JDBC µÄ²éÑ¯½á¹û.
+	 * 1. ResultSet å°è£… JDBC çš„æŸ¥è¯¢ç»“æœ.
 	 */
 	@Test
 	public void testResultSet(){
@@ -27,24 +27,24 @@ public class ReviewTest {
 		ResultSet resultSet = null;
 		
 		try {
-			//1. »ñÈ¡Êı¾İ¿âÁ¬½Ó
+			//1. è·å–æ•°æ®åº“è¿æ¥
 			connection = getConnection();
 			
-			//2. µ÷ÓÃ Connection ¶ÔÏóµÄ createStatement() ·½·¨»ñÈ¡ Statement ¶ÔÏó
+			//2. è°ƒç”¨ Connection å¯¹è±¡çš„ createStatement() æ–¹æ³•è·å– Statement å¯¹è±¡
 			statement = connection.createStatement();
 			
-			//3. ×¼±¸ SQL Óï¾ä
+			//3. å‡†å¤‡ SQL è¯­å¥
 			String sql = "SELECT id, name, email, birth FROM customers";
 			
-			//4. ·¢ËÍ SQL Óï¾ä: µ÷ÓÃ Statement ¶ÔÏóµÄ  executeQuery(sql) ·½·¨.
-			//µÃµ½½á¹û¼¯¶ÔÏó ResultSet
+			//4. å‘é€ SQL è¯­å¥: è°ƒç”¨ Statement å¯¹è±¡çš„  executeQuery(sql) æ–¹æ³•.
+			//å¾—åˆ°ç»“æœé›†å¯¹è±¡ ResultSet
 			resultSet = statement.executeQuery(sql);
 			
-			//5. ´¦Àí½á¹û¼¯:
-			//5.1 µ÷ÓÃ ResultSet µÄ next() ·½·¨: ²é¿´½á¹û¼¯µÄÏÂÒ»Ìõ¼ÇÂ¼ÊÇ·ñÓĞĞ§, 
-			//ÈôÓĞĞ§ÔòÏÂÒÆÖ¸Õë
+			//5. å¤„ç†ç»“æœé›†:
+			//5.1 è°ƒç”¨ ResultSet çš„ next() æ–¹æ³•: æŸ¥çœ‹ç»“æœé›†çš„ä¸‹ä¸€æ¡è®°å½•æ˜¯å¦æœ‰æ•ˆ, 
+			//è‹¥æœ‰æ•ˆåˆ™ä¸‹ç§»æŒ‡é’ˆ
 			while(resultSet.next()){
-				//5.2 getXxx() ·½·¨»ñÈ¡¾ßÌåµÄÁĞµÄÖµ. 
+				//5.2 getXxx() æ–¹æ³•è·å–å…·ä½“çš„åˆ—çš„å€¼. 
 				int id = resultSet.getInt(1);
 				String name = resultSet.getString(2);
 				String email = resultSet.getString(3);
@@ -61,14 +61,14 @@ public class ReviewTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally{
-			//6. ¹Ø±ÕÊı¾İ¿â×ÊÔ´
+			//6. å…³é—­æ•°æ®åº“èµ„æº
 			releaseDB(resultSet, statement, connection);
 		}
 		
 	}
 	
 	/**
-	 * 1. Statement ÊÇÓÃÓÚ²Ù×÷ SQL µÄ¶ÔÏó
+	 * 1. Statement æ˜¯ç”¨äºæ“ä½œ SQL çš„å¯¹è±¡
 	 */
 	@Test
 	public void testStatement(){
@@ -76,23 +76,23 @@ public class ReviewTest {
 		Statement statement = null;
 		
 		try {
-			//1. »ñÈ¡Êı¾İ¿âÁ¬½Ó
+			//1. è·å–æ•°æ®åº“è¿æ¥
 			connection = getConnection();
 			
-			//2. µ÷ÓÃ Connection ¶ÔÏóµÄ createStatement() ·½·¨»ñÈ¡ Statement ¶ÔÏó
+			//2. è°ƒç”¨ Connection å¯¹è±¡çš„ createStatement() æ–¹æ³•è·å– Statement å¯¹è±¡
 			statement = connection.createStatement();
 			
-			//3. ×¼±¸ SQL Óï¾ä
+			//3. å‡†å¤‡ SQL è¯­å¥
 			String sql = "UPDATE customers SET name = 'Jerry' " +
 					"WHERE id = 5";
 			
-			//4. ·¢ËÍ SQL Óï¾ä: µ÷ÓÃ Statement ¶ÔÏóµÄ  executeUpdate(sql) ·½·¨
+			//4. å‘é€ SQL è¯­å¥: è°ƒç”¨ Statement å¯¹è±¡çš„  executeUpdate(sql) æ–¹æ³•
 			statement.executeUpdate(sql);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally{
-			//5. ¹Ø±ÕÊı¾İ¿â×ÊÔ´: ÓÉÀïÏòÍâ¹Ø±Õ. 
+			//5. å…³é—­æ•°æ®åº“èµ„æº: ç”±é‡Œå‘å¤–å…³é—­. 
 			releaseDB(null, statement, connection);
 		}		
 		
@@ -137,52 +137,52 @@ public class ReviewTest {
 
 	public Connection getConnection() throws IOException,
 			ClassNotFoundException, SQLException {
-		//0. ¶ÁÈ¡ jdbc.properties
+		//0. è¯»å– jdbc.properties
 		/**
-		 * 1). ÊôĞÔÎÄ¼ş¶ÔÓ¦ Java ÖĞµÄ Properties Àà
-		 * 2). ¿ÉÒÔÊ¹ÓÃÀà¼ÓÔØÆ÷¼ÓÔØ bin Ä¿Â¼(ÀàÂ·¾¶ÏÂ)µÄÎÄ¼ş
+		 * 1). å±æ€§æ–‡ä»¶å¯¹åº” Java ä¸­çš„ Properties ç±»
+		 * 2). å¯ä»¥ä½¿ç”¨ç±»åŠ è½½å™¨åŠ è½½ bin ç›®å½•(ç±»è·¯å¾„ä¸‹)çš„æ–‡ä»¶
 		 */
 		Properties properties = new Properties();
 		InputStream inStream = ReviewTest.class.getClassLoader()
 				.getResourceAsStream("jdbc.properties");
 		properties.load(inStream);
 		
-		//1. ×¼±¸»ñÈ¡Á¬½ÓµÄ 4 ¸ö×Ö·û´®: user, password, jdbcUrl, driverClass
+		//1. å‡†å¤‡è·å–è¿æ¥çš„ 4 ä¸ªå­—ç¬¦ä¸²: user, password, jdbcUrl, driverClass
 		String user = properties.getProperty("user");
 		String password = properties.getProperty("password");
 		String jdbcUrl = properties.getProperty("jdbcUrl");
 		String driverClass = properties.getProperty("driverClass");
 		
-		//2. ¼ÓÔØÇı¶¯: Class.forName(driverClass)
+		//2. åŠ è½½é©±åŠ¨: Class.forName(driverClass)
 		Class.forName(driverClass);
 		
-		//3. µ÷ÓÃ 
+		//3. è°ƒç”¨ 
 		//DriverManager.getConnection(jdbcUrl, user, password)
-		//»ñÈ¡Êı¾İ¿âÁ¬½Ó
+		//è·å–æ•°æ®åº“è¿æ¥
 		Connection connection = DriverManager
 					.getConnection(jdbcUrl, user, password);
 		return connection;
 	}
 	
 	/**
-	 * Connection ´ú±íÓ¦ÓÃ³ÌĞòºÍÊı¾İ¿âµÄÒ»¸öÁ¬½Ó.
+	 * Connection ä»£è¡¨åº”ç”¨ç¨‹åºå’Œæ•°æ®åº“çš„ä¸€ä¸ªè¿æ¥.
 	 * @throws Exception 
 	 * 
 	 */
 	@Test
 	public void testGetConnection() throws Exception{
-		//1. ×¼±¸»ñÈ¡Á¬½ÓµÄ 4 ¸ö×Ö·û´®: user, password, jdbcUrl, driverClass
+		//1. å‡†å¤‡è·å–è¿æ¥çš„ 4 ä¸ªå­—ç¬¦ä¸²: user, password, jdbcUrl, driverClass
 		String user = "root";
 		String password = "1230";
 		String jdbcUrl = "jdbc:mysql:///atguigu";
 		String driverClass = "com.mysql.jdbc.Driver";
 		
-		//2. ¼ÓÔØÇı¶¯: Class.forName(driverClass)
+		//2. åŠ è½½é©±åŠ¨: Class.forName(driverClass)
 		Class.forName(driverClass);
 		
-		//3. µ÷ÓÃ 
+		//3. è°ƒç”¨ 
 		//DriverManager.getConnection(jdbcUrl, user, password)
-		//»ñÈ¡Êı¾İ¿âÁ¬½Ó
+		//è·å–æ•°æ®åº“è¿æ¥
 		Connection connection = DriverManager
 					.getConnection(jdbcUrl, user, password);
 		

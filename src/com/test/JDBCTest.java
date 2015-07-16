@@ -30,7 +30,7 @@ public class JDBCTest {
 		
 		Statement statment = connection.createStatement();
 		
-		statment.execute("INSERT INTO student(id, name, sex) VALUES(111,'–°√˜','w' )");
+		statment.execute("INSERT INTO student(id, name, sex) VALUES(111,'ÁªèÂ∏∏','w' )");
 		
 		statment.close();
 		
