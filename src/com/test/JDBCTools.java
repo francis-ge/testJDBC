@@ -112,7 +112,7 @@ public class JDBCTools {
 		 * 1). 属性文件对应 Java 中的 Properties 类 2). 可以使用类加载器加载 bin 目录(类路径下)的文件
 		 */
 		Properties properties = new Properties();
-		InputStream inStream = ReviewTest.class.getClassLoader()
+		InputStream inStream = JDBCTools.class.getClassLoader()
 				.getResourceAsStream("jdbc.properties");
 		properties.load(inStream);
 
