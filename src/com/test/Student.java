@@ -2,9 +2,9 @@ package com.test;
 
 public class Student {
 
-	// Á÷Ë®ºÅ
+	// æµæ°´å·
 	private int id;
-	// Ñ§ÉúÃû
+	// å­¦ç”Ÿå
 	private String Name;
 	
 	private String sex;

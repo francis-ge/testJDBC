@@ -29,7 +29,7 @@ public class JDBCTest {
 		
 		Statement statment = connection.createStatement();
 		
-		statment.execute("INSERT INTO student(id, name, sex) VALUES(9,'–°¿Ó','w' )");
+		statment.execute("INSERT INTO student(id, name, sex) VALUES(9,'Â∞èÊùé','w' )");
 		
 		statment.close();
 		

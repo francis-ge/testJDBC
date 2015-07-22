@@ -14,9 +14,9 @@ import java.util.Properties;
 public class JDBCTools {
 
 	/**
-	 * Ö´ĞĞ SQL Óï¾ä, Ê¹ÓÃ PreparedStatement
+	 * æ‰§è¡Œ SQL è¯­å¥, ä½¿ç”¨ PreparedStatement
 	 * @param sql
-	 * @param args: ÌîĞ´ SQL Õ¼Î»·ûµÄ¿É±ä²ÎÊı
+	 * @param args: å¡«å†™ SQL å ä½ç¬¦çš„å¯å˜å‚æ•°
 	 */
 	public static void update(String sql, Object ... args){
 		Connection connection = null;
@@ -40,34 +40,34 @@ public class JDBCTools {
 	}
 	
 	/**
-	 * Ö´ĞĞ SQL µÄ·½·¨
+	 * æ‰§è¡Œ SQL çš„æ–¹æ³•
 	 * 
-	 * @param sql: insert, update »ò delete¡£ ¶ø²»°üº¬ select
+	 * @param sql: insert, update æˆ– deleteã€‚ è€Œä¸åŒ…å« select
 	 */
 	public static void update(String sql) {
 		Connection connection = null;
 		Statement statement = null;
 
 		try {
-			// 1. »ñÈ¡Êı¾İ¿âÁ¬½Ó
+			// 1. è·å–æ•°æ®åº“è¿æ¥
 			connection = getConnection();
 
-			// 2. µ÷ÓÃ Connection ¶ÔÏóµÄ createStatement() ·½·¨»ñÈ¡ Statement ¶ÔÏó
+			// 2. è°ƒç”¨ Connection å¯¹è±¡çš„ createStatement() æ–¹æ³•è·å– Statement å¯¹è±¡
 			statement = connection.createStatement();
 
-			// 4. ·¢ËÍ SQL Óï¾ä: µ÷ÓÃ Statement ¶ÔÏóµÄ executeUpdate(sql) ·½·¨
+			// 4. å‘é€ SQL è¯­å¥: è°ƒç”¨ Statement å¯¹è±¡çš„ executeUpdate(sql) æ–¹æ³•
 			statement.executeUpdate(sql);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			// 5. ¹Ø±ÕÊı¾İ¿â×ÊÔ´: ÓÉÀïÏòÍâ¹Ø±Õ.
+			// 5. å…³é—­æ•°æ®åº“èµ„æº: ç”±é‡Œå‘å¤–å…³é—­.
 			releaseDB(null, statement, connection);
 		}
 	}
 
 	/**
-	 * ÊÍ·ÅÊı¾İ¿â×ÊÔ´µÄ·½·¨
+	 * é‡Šæ”¾æ•°æ®åº“èµ„æºçš„æ–¹æ³•
 	 * 
 	 * @param resultSet
 	 * @param statement
@@ -103,31 +103,31 @@ public class JDBCTools {
 	}
 
 	/**
-	 * »ñÈ¡Êı¾İ¿âÁ¬½ÓµÄ·½·¨
+	 * è·å–æ•°æ®åº“è¿æ¥çš„æ–¹æ³•
 	 */
 	public static Connection getConnection() throws IOException,
 			ClassNotFoundException, SQLException {
-		// 0. ¶ÁÈ¡ jdbc.properties
+		// 0. è¯»å– jdbc.properties
 		/**
-		 * 1). ÊôĞÔÎÄ¼ş¶ÔÓ¦ Java ÖĞµÄ Properties Àà 2). ¿ÉÒÔÊ¹ÓÃÀà¼ÓÔØÆ÷¼ÓÔØ bin Ä¿Â¼(ÀàÂ·¾¶ÏÂ)µÄÎÄ¼ş
+		 * 1). å±æ€§æ–‡ä»¶å¯¹åº” Java ä¸­çš„ Properties ç±» 2). å¯ä»¥ä½¿ç”¨ç±»åŠ è½½å™¨åŠ è½½ bin ç›®å½•(ç±»è·¯å¾„ä¸‹)çš„æ–‡ä»¶
 		 */
 		Properties properties = new Properties();
 		InputStream inStream = ReviewTest.class.getClassLoader()
 				.getResourceAsStream("jdbc.properties");
 		properties.load(inStream);
 
-		// 1. ×¼±¸»ñÈ¡Á¬½ÓµÄ 4 ¸ö×Ö·û´®: user, password, jdbcUrl, driverClass
+		// 1. å‡†å¤‡è·å–è¿æ¥çš„ 4 ä¸ªå­—ç¬¦ä¸²: user, password, jdbcUrl, driverClass
 		String user = properties.getProperty("user");
 		String password = properties.getProperty("password");
 		String jdbcUrl = properties.getProperty("jdbcUrl");
 		String driverClass = properties.getProperty("driverClass");
 
-		// 2. ¼ÓÔØÇı¶¯: Class.forName(driverClass)
+		// 2. åŠ è½½é©±åŠ¨: Class.forName(driverClass)
 		Class.forName(driverClass);
 
-		// 3. µ÷ÓÃ
+		// 3. è°ƒç”¨
 		// DriverManager.getConnection(jdbcUrl, user, password)
-		// »ñÈ¡Êı¾İ¿âÁ¬½Ó
+		// è·å–æ•°æ®åº“è¿æ¥
 		Connection connection = DriverManager.getConnection(jdbcUrl, user,
 				password);
 		return connection;
