@@ -10,39 +10,43 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-
 public class JDBCTools {
-
 	/**
-	 * 执行 SQL 语句, 使用 PreparedStatement
-	 * @param sql
-	 * @param args: 填写 SQL 占位符的可变参数
+	 * 获取数据库连接的方法
 	 */
-	public static void update(String sql, Object ... args){
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		
-		try {
-			connection = JDBCTools.getConnection();
-			preparedStatement = connection.prepareStatement(sql);
-			
-			for(int i = 0; i < args.length; i++){
-				preparedStatement.setObject(i + 1, args[i]);
-			}
-			
-			preparedStatement.executeUpdate();
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally{
-			JDBCTools.releaseDB(null, preparedStatement, connection);
-		}
+	public static Connection getConnection() throws IOException,
+			ClassNotFoundException, SQLException {
+		// 0. 读取 jdbc.properties
+		/**
+		 * 1). 属性文件对应 Java 中的 Properties 类 2). 可以使用类加载器加载 bin 目录(类路径下)的文件
+		 */
+		Properties properties = new Properties();
+		InputStream inStream = JDBCTools.class.getClassLoader()
+				.getResourceAsStream("jdbc.properties");
+		properties.load(inStream);
+
+		// 1. 准备获取连接的 4 个字符串: user, password, jdbcUrl, driverClass
+		String user = properties.getProperty("user");
+		String password = properties.getProperty("password");
+		String jdbcUrl = properties.getProperty("jdbcUrl");
+		String driverClass = properties.getProperty("driverClass");
+
+		// 2. 加载驱动: Class.forName(driverClass)
+		Class.forName(driverClass);
+
+		// 3. 调用
+		// DriverManager.getConnection(jdbcUrl, user, password)
+		// 获取数据库连接
+		Connection connection = DriverManager.getConnection(jdbcUrl, user,
+				password);
+		return connection;
 	}
-	
+
 	/**
 	 * 执行 SQL 的方法
 	 * 
-	 * @param sql: insert, update 或 delete。 而不包含 select
+	 * @param sql
+	 *            : insert, update 或 delete。 而不包含 select
 	 */
 	public static void update(String sql) {
 		Connection connection = null;
@@ -63,6 +67,34 @@ public class JDBCTools {
 		} finally {
 			// 5. 关闭数据库资源: 由里向外关闭.
 			releaseDB(null, statement, connection);
+		}
+	}
+
+	/**
+	 * 执行 SQL 语句, 使用 PreparedStatement
+	 * 
+	 * @param sql
+	 * @param args
+	 *            : 填写 SQL 占位符的可变参数
+	 */
+	public static void update(String sql, Object... args) {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		try {
+			connection = JDBCTools.getConnection();
+			preparedStatement = connection.prepareStatement(sql);
+
+			for (int i = 0; i < args.length; i++) {
+				preparedStatement.setObject(i + 1, args[i]);
+			}
+
+			preparedStatement.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTools.releaseDB(null, preparedStatement, connection);
 		}
 	}
 
@@ -100,38 +132,6 @@ public class JDBCTools {
 			}
 		}
 
-	}
-	
-
-	/**
-	 * 获取数据库连接的方法
-	 */
-	public static Connection getConnection() throws IOException,
-			ClassNotFoundException, SQLException {
-		// 0. 读取 jdbc.properties
-		/**
-		 * 1). 属性文件对应 Java 中的 Properties 类 2). 可以使用类加载器加载 bin 目录(类路径下)的文件
-		 */
-		Properties properties = new Properties();
-		InputStream inStream = JDBCTools.class.getClassLoader()
-				.getResourceAsStream("jdbc.properties");
-		properties.load(inStream);
-
-		// 1. 准备获取连接的 4 个字符串: user, password, jdbcUrl, driverClass
-		String user = properties.getProperty("user");
-		String password = properties.getProperty("password");
-		String jdbcUrl = properties.getProperty("jdbcUrl");
-		String driverClass = properties.getProperty("driverClass");
-
-		// 2. 加载驱动: Class.forName(driverClass)
-		Class.forName(driverClass);
-
-		// 3. 调用
-		// DriverManager.getConnection(jdbcUrl, user, password)
-		// 获取数据库连接
-		Connection connection = DriverManager.getConnection(jdbcUrl, user,
-				password);
-		return connection;
 	}
 
 }

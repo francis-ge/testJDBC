@@ -1,34 +1,30 @@
 package com.test;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.PreparedStatement;
 
 import org.junit.Test;
-
-import com.microsoft.sqlserver.jdbc.SQLServerDriver;
 
 public class JDBCTest {
 	
 	@Test
 	public void testDriver() throws Exception{
 		
-		String sqlserverDriverStr = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+		//String sqlserverDriverStr = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 		String MysqlDriverStr = "com.mysql.jdbc.Driver";
 
-		String sqlserverUrl = "jdbc:sqlserver://localhost:1433;databaseName=test;integratedSecurity=true;";
+		//String sqlserverUrl = "jdbc:sqlserver://localhost:1433;databaseName=test;integratedSecurity=true;";
 		String mysqlUrl = "jdbc:mysql://localhost/test1?useUnicode=true&characterEncoding=utf8";
 		
-		String sqlserverUser = "sa";
+		//String sqlserverUser = "sa";
 		String mysqlUser = "root";
 		
-		String sqlserverPassword = "sharpower1*";
+		//String sqlserverPassword = "sharpower1*";
 		String mysqlPassword = "";
 		
 		Class.forName(MysqlDriverStr);
@@ -45,10 +41,11 @@ public class JDBCTest {
 	}
 	
 	@Test
-	public void testUpdate() throws FileNotFoundException{
+	public void testUpdateBlob() throws ClassNotFoundException, IOException, SQLException{
 		String sql = "INSERT INTO student VALUES(?,?,?,?)";
 		InputStream pic = new FileInputStream("pic\\Penguins.jpg");
-		JDBCTools.update(sql, 222, "22222", "w", pic);
+	
+		JDBCTools.update(sql, 12, "22222", "w", pic);
 				
 	}
 
@@ -72,16 +69,13 @@ public class JDBCTest {
 			ps = connection.createStatement();
 			ps.execute(sql);
 			connection.commit();
-			
-			sql = "UPDATE student id = 3333 WHERE name = 333333";
-			ps= connection.prepareStatement(sql);
-			ps.execute(sql);
-			
+			ps.close();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
 			JDBCTools.releaseDB(null, ps, connection);
+			
 		}
 		
 		
